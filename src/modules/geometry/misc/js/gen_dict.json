@@ -1,0 +1,42 @@
+{
+    "whitelist":
+    {
+        "": [
+            "findHomography",
+            "estimateAffine2D",
+            "getDefaultNewCameraMatrix",
+            "initUndistortRectifyMap",
+            "Rodrigues",
+            "solvePnP",
+            "solvePnPRansac",
+            "solvePnPRefineLM",
+            "projectPoints",
+            "undistort",
+            "fisheye_projectPoints",
+            "approxPolyDP",
+            "approxPolyN",
+            "boundingRect",
+            "minAreaRect",
+            "minEnclosingCircle",
+            "minEnclosingTriangle",
+            "matchShapes",
+            "convexHull",
+            "convexityDefects",
+            "isContourConvex",
+            "intersectConvexConvex",
+            "fitEllipse",
+            "fitEllipseAMS",
+            "fitEllipseDirect",
+            "fitLine",
+            "pointPolygonTest",
+            "getAffineTransform",
+            "getPerspectiveTransform",
+            "getRotationMatrix2D",
+            "HuMoments",
+            "invertAffineTransform",
+            "moments",
+            "rotatedRectangleIntersection"
+        ],
+        "UsacParams": ["UsacParams"]
+    }
+}

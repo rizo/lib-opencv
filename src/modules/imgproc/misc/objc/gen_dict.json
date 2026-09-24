@@ -1,0 +1,120 @@
+{
+    "class_ignore_list": [
+        "FontFace"
+    ],
+    "AdditionalImports" : {
+        "Imgproc" : [ "\"imgproc/bindings.hpp\"" ]
+    },
+    "enum_ignore_list" : [
+        "MorphShapes_c",
+        "SmoothMethod_c"
+    ],
+    "module_imports": ["Size2i"],
+    "const_ignore_list": [
+        "CV_TM_.+",
+        "CV_COLORCVT_MAX",
+        "CV_.*Bayer.*",
+        "CV_YUV420(i|sp|p)2.+",
+        "CV_L?(BGRA?|RGBA?|GRAY|XYZ|YCrCb|Luv|Lab|HLS|YUV|HSV)\\d*2L?(BGRA?|RGBA?|GRAY|XYZ|YCrCb|Luv|Lab|HLS|YUV|HSV).*",
+        "CV_FLOODFILL_.+",
+        "CV_ADAPTIVE_THRESH_.+",
+        "CV_DIST_.+",
+        "CV_HOUGH_.+",
+        "CV_CONTOURS_MATCH_.+",
+        "CV_COMP_.+"
+    ],
+    "const_private_list" : [
+        "CV_MOP_.+",
+        "CV_INTER_.+",
+        "CV_THRESH_.+",
+        "CV_INPAINT_.+",
+        "CV_RETR_.+",
+        "CV_CHAIN_APPROX_.+"
+    ],
+    "missing_consts" : {
+        "Imgproc" : {
+            "private" : [
+                ["IPL_BORDER_CONSTANT",    0 ],
+                ["IPL_BORDER_REPLICATE",   1 ],
+                ["IPL_BORDER_REFLECT",     2 ],
+                ["IPL_BORDER_WRAP",        3 ],
+                ["IPL_BORDER_REFLECT_101", 4 ],
+                ["IPL_BORDER_TRANSPARENT", 5 ]
+            ]
+        }
+    },
+    "func_arg_fix" : {
+        "Imgproc" : {
+            "fillPoly"   : { "pts" : {"ctype" : "vector_vector_Point"},
+                             "lineType" : {"ctype" : "LineTypes"}},
+            "polylines"  : { "pts" : {"ctype" : "vector_vector_Point"},
+                             "lineType" : {"ctype" : "LineTypes"} },
+            "fillConvexPoly" : { "points" : {"ctype" : "vector_Point"},
+                                 "lineType" : {"ctype" : "LineTypes"} },
+            "drawContours" : { "contours" : {"ctype" : "vector_vector_Point"},
+                               "lineType" : {"ctype" : "LineTypes"} },
+            "findContours" : { "contours" : {"ctype" : "vector_vector_Point"},
+                               "mode" : {"ctype" : "RetrievalModes"},
+                               "method" : {"ctype" : "ContourApproximationModes"} },
+            "getStructuringElement" : { "shape" : {"ctype" : "MorphShapes"} },
+            "EMD" : {"lowerBound" : {"defval" : "cv::Ptr<float>()"},
+                     "distType" : {"ctype" : "DistanceTypes"}},
+            "createLineSegmentDetector" : { "_refine" : {"ctype" : "LineSegmentDetectorModes"}},
+            "compareHist" : { "method" : {"ctype" : "HistCompMethods"}},
+            "threshold" : { "type" : {"ctype" : "ThresholdTypes"}},
+            "connectedComponentsWithStatsWithAlgorithm" : { "ccltype" : {"ctype" : "ConnectedComponentsAlgorithmsTypes"}},
+            "GaussianBlur" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "HoughCircles" : { "method" : {"ctype" : "HoughModes"}},
+            "Laplacian" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "Scharr" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "Sobel" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "adaptiveThreshold" : { "adaptiveMethod" : {"ctype" : "AdaptiveThresholdTypes"},
+                                    "thresholdType" : {"ctype" : "ThresholdTypes"}},
+            "applyColorMap" : { "colormap" : {"ctype" : "ColormapTypes"}},
+            "arrowedLine" : { "line_type" : {"ctype" : "LineTypes"}},
+            "bilateralFilter" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "blur" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "boxFilter" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "circle" : { "lineType" : {"ctype" : "LineTypes"}},
+            "cornerEigenValsAndVecs" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "cornerHarris" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "cornerMinEigenVal" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "cvtColor" : { "code" : {"ctype" : "ColorConversionCodes"}},
+            "dilate" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "distanceTransformWithLabels" : { "labelType" : {"ctype" : "DistanceTransformLabelTypes"},
+                                              "distanceType" : {"ctype" : "DistanceTypes"},
+                                              "maskSize" : {"ctype" : "DistanceTransformMasks"}},
+            "distanceTransform" : { "distanceType" : {"ctype" : "DistanceTypes"},
+                                    "maskSize" : {"ctype" : "DistanceTransformMasks"}},
+            "drawMarker" : { "markerType" : {"ctype" : "MarkerTypes"},
+                             "line_type" : {"ctype" : "LineTypes"}},
+            "ellipse" : { "lineType" : {"ctype" : "LineTypes"}},
+            "erode" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "filter2D" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "line" : { "lineType" : {"ctype" : "LineTypes"}},
+            "matchTemplate" : { "method" : {"ctype" : "TemplateMatchModes"}},
+            "morphologyEx" : { "op" : {"ctype" : "MorphTypes"},
+                               "borderType" : {"ctype" : "BorderTypes"}},
+            "preCornerDetect" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "putText" : { "fontFace" : {"ctype" : "HersheyFonts"},
+                          "lineType" : {"ctype" : "LineTypes"}},
+            "pyrDown" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "pyrUp" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "rectangle" : { "lineType" : {"ctype" : "LineTypes"}},
+            "remap" : { "borderMode": {"ctype" : "BorderTypes"}},
+            "sepFilter2D" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "spatialGradient" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "sqrBoxFilter" : { "borderType" : {"ctype" : "BorderTypes"}},
+            "warpAffine" : { "borderMode": {"ctype" : "BorderTypes"}},
+            "warpPerspective" : { "borderMode": {"ctype" : "BorderTypes"}},
+            "getTextSize" : { "fontFace": {"ctype" : "HersheyFonts"}}
+        }
+    },
+    "type_dict": {
+        "FontFace": {
+            "objc_type": "FontFace*",
+            "to_cpp": "%(n)s.nativeRef",
+            "from_cpp": "[FontFace fromNative:%(n)s]"
+        }
+    }
+}
