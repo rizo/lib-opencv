@@ -1,0 +1,16 @@
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -5,13 +5,7 @@
+ #      $ cmake <PATH_TO_OPENCV_ROOT>
+ #
+ # ----------------------------------------------------------------------------
+-# Disable in-source builds to prevent source tree corruption.
+-if(" ${CMAKE_SOURCE_DIR}" STREQUAL " ${CMAKE_BINARY_DIR}")
+-  message(FATAL_ERROR "
+-FATAL: In-source builds are not allowed.
+-       You should create a separate directory for build files.
+-")
+-endif()
++# PATCH: enable_insource_build.patch
+
+ include(cmake/OpenCVMinDepVersions.cmake)
