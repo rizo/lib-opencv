@@ -11,6 +11,6 @@
 -       You should create a separate directory for build files.
 -")
 -endif()
-+# PATCH: enable_insource_build.patch
++# PATCH: enable_insource_build
 
  include(cmake/OpenCVMinDepVersions.cmake)
