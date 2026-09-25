@@ -1,0 +1,9 @@
+include $(APP_DIR)/Makefile.bearuk
+
+# For insource builds we need to preserve the sub-directory structure.
+APPOPENCV__BUILDTREE := y
+APPOPENCV_SRC := $(APPOPENCV_BASE)
+
+# Add opencv_modules generated during configure.
+APPOPENCV_CXXINCLUDES-y +=  -I$(APPOPENCV_BASE)/unikraft-support/include
+
