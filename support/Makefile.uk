@@ -4,6 +4,10 @@ include $(APP_DIR)/Makefile.bearuk
 APPOPENCV__BUILDTREE := y
 APPOPENCV_SRC := $(APPOPENCV_BASE)
 
-# Add opencv_modules generated during configure.
+# Additional unikraft includes: opencv configure includes and intrinsics.
 APPOPENCV_CXXINCLUDES-y +=  -I$(APPOPENCV_BASE)/unikraft-support/include
+
+# Fall back to the compiler's includes (with intrinsics headers). The lookup
+# needs to happen "after" to ensure that musl's libc headers are found first.
+APPOPENCV_CXXINCLUDES-y +=  -idirafter$(APPOPENCV_BASE)/unikraft-support/compiler-include
 

@@ -22,3 +22,6 @@ cp support/Kraftfile src/Kraftfile
 mkdir -p src/unikraft-support/include/linux
 cp support/dummy.h src/unikraft-support/include/linux/auxvec.h
 
+# Symlink the full includes from the compiler. See Makefile.uk.
+CLANG_RESOURCE_DIR="$(clang -print-resource-dir)"
+ln -s "${CLANG_RESOURCE_DIR}/include" src/unikraft-support/compiler-include
