@@ -61,7 +61,7 @@
 -DBUILD_opencv_highgui=OFF
 -DBUILD_opencv_imgcodecs=OFF
 -DBUILD_opencv_imgcodecs=OFF
--DBUILD_opencv_imgproc=OFF
+-DBUILD_opencv_imgproc=ON
 -DBUILD_opencv_java=OFF
 -DBUILD_opencv_js=OFF
 -DBUILD_opencv_legacy=OFF
