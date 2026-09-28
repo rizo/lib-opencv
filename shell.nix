@@ -2,7 +2,8 @@
 
 pkgs.mkShell {
   packages = [
-    pkgs.clang
+    # pkgs.clang
+    pkgs.gcc
     pkgs.cmake
     pkgs.kraft
     pkgs.bison
