@@ -4,7 +4,8 @@
 
 Build the library with provided `options.txt`:
 ```shell
-./fetch.bash
+./patch.bash
 ./configure.bash
-./build.bash
+./copy_support_files.bash
+./kraft_build.bash
 ```

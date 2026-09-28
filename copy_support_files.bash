@@ -14,6 +14,7 @@ cp src/cvconfig.h src/unikraft-support/include
 cp src/opencv_data_config.hpp src/unikraft-support/include
 
 # Copy unikraft files
+cp support/Makefile.bearuk src/Makefile.bearuk
 cp support/Makefile.uk src/Makefile.uk
 cp support/Kraftfile src/Kraftfile
 
