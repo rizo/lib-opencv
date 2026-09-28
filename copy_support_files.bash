@@ -16,3 +16,9 @@ cp src/opencv_data_config.hpp src/unikraft-support/include
 # Copy unikraft files
 cp support/Makefile.uk src/Makefile.uk
 cp support/Kraftfile src/Kraftfile
+
+# Copy dummy "linux/auxvec.h".
+# Included in "modules/core/src/system.cpp", if __linux__ is defined.
+mkdir -p src/unikraft-support/include/linux
+cp support/dummy.h src/unikraft-support/include/linux/auxvec.h
+

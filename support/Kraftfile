@@ -21,8 +21,6 @@ unikraft:
 targets:
 - platform: qemu
   arch: x86_64
-  kconfig:
-    CONFIG_LIBINTEL_INTRINSICS: 'y'
 - platform: qemu
   arch: arm64
   kconfig:
@@ -45,7 +43,6 @@ libraries:
     version: stable
     kconfig:
       CONFIG_LIBCOMPILER_RT: 'y'
-  # intel-intrinsics: stable
 
 
 
