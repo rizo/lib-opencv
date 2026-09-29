@@ -1,0 +1,19 @@
+FROM kraftkit.sh/base:latest AS petrel_build
+WORKDIR /mnt/build
+RUN apt update
+RUN apt install -y g++-12-aarch64-linux-gnu
+COPY [ "./", "." ]
+RUN CC=gcc ./copy_support_files.bash
+WORKDIR src/
+RUN export UK_CFLAGS="-std=gnu17 -Wno-implicit-function-declaration"
+RUN kraft build --no-prompt --log-level debug --log-type basic --plat qemu --arch x86_64
+WORKDIR /mnt/output
+RUN mv /mnt/build/src/.unikraft/build/*qemu-x86_64 image
+
+
+FROM scratch AS petrel_final
+WORKDIR /mnt/output
+COPY --from=petrel_build [ "/mnt/output/image", "./image" ]
+CMD [ "nonexistent" ]
+
+
