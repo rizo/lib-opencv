@@ -3,6 +3,7 @@
   "project_root": "./src/",
   "kind": "unikraft",
   "targets": [
-      { "dockerfile": "petrel.docker", "platform": "qemu", "arch": "amd64" }
+      { "dockerfile": "petrel.docker", "platform": "qemu", "arch": "amd64" },
+      { "dockerfile": "petrel.docker", "platform": "qemu", "arch": "arm64" }
   ]
 }
