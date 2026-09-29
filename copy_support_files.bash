@@ -34,5 +34,5 @@ elif test "${CC}" = "gcc"; then
   # Copy shim for older gcc.
   # TODO: Check gcc version first.
   mkdir -p src/unikraft-support/src
-  cp support/cxxabi_stub.cpp src/unikraft-support/src/cxxabi_shim.cpp
+  cp support/cxxabi_stub.cpp src/unikraft-support/src/cxxabi_stub.cpp
 fi
