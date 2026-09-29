@@ -30,4 +30,9 @@ if test "${CC}" = "clang"; then
 elif test "${CC}" = "gcc"; then
   GCC_INCLUDE_DIR="$(gcc -print-file-name=include)"
   ln -s "${GCC_INCLUDE_DIR}" src/unikraft-support/compiler-include
+
+  # Copy shim for older gcc.
+  # TODO: Check gcc version first.
+  mkdir -p src/unikraft-support/src
+  cp support/cxxabi_stub.cpp src/unikraft-support/src/cxxabi_shim.cpp
 fi

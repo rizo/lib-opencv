@@ -11,3 +11,5 @@ APPOPENCV_CXXINCLUDES-y +=  -I$(APPOPENCV_BASE)/unikraft-support/include
 # needs to happen "after" to ensure that musl's libc headers are found first.
 APPOPENCV_CXXINCLUDES-y +=  -idirafter$(APPOPENCV_BASE)/unikraft-support/compiler-include
 
+# Compile cxxabi stub.
+APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/unikraft-support/src/cxxabi_stub.cpp

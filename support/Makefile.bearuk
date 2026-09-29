@@ -8,7 +8,7 @@ $(eval $(call addlib,appopencv))
 # Flags
 ################################################################################
 APPOPENCV_CFLAGS-y += 
-APPOPENCV_CXXFLAGS-y +=  -DNDEBUG -DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE="long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -msse3 -pthread -std=c++17 /mnt/data/home/rizo/Code/tarides/unikraft-lib-opencv/src
+APPOPENCV_CXXFLAGS-y +=  -DNDEBUG -DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE="long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -msse3 -pthread -std=c++17 $(APPOPENCV_BASE)
 
 ################################################################################
 # Includes necessary to build
