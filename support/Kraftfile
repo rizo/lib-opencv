@@ -17,6 +17,7 @@ unikraft:
     CONFIG_LIBVFSCORE: 'y'
     CONFIG_LIBUKBOOT_CMDLINE_MAX_LEN: '16384'
     CONFIG_LIBUKBOOT_MAXNBARGS: '500'
+    CONFIG_LIBOPENCV: 'y'
 
 targets:
 - platform: qemu

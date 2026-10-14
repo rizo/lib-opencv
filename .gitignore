@@ -3,3 +3,4 @@ src/.unikraft
 src/modules/.firstpass
 src/modules/core/CMakeFiles
 src/CMakeFiles
+_petrel

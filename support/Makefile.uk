@@ -1,15 +1,15 @@
-include $(APP_DIR)/Makefile.bearuk
+include $(LIBOPENCV_BASE)/Makefile.bearuk
 
 # For insource builds we need to preserve the sub-directory structure.
-APPOPENCV__BUILDTREE := y
-APPOPENCV_SRC := $(APPOPENCV_BASE)
+LIBOPENCV__BUILDTREE := y
+LIBOPENCV_SRC := $(LIBOPENCV_BASE)
 
 # Additional unikraft includes: opencv configure includes and intrinsics.
-APPOPENCV_CXXINCLUDES-y +=  -I$(APPOPENCV_BASE)/unikraft-support/include
+LIBOPENCV_CXXINCLUDES-y +=  -I$(LIBOPENCV_BASE)/unikraft-support/include
 
 # Fall back to the compiler's includes (with intrinsics headers). The lookup
 # needs to happen "after" to ensure that musl's libc headers are found first.
-APPOPENCV_CXXINCLUDES-y +=  -idirafter$(APPOPENCV_BASE)/unikraft-support/compiler-include
+LIBOPENCV_CXXINCLUDES-y +=  -idirafter$(LIBOPENCV_BASE)/unikraft-support/compiler-include
 
 # Compile cxxabi stub.
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/unikraft-support/src/cxxabi_stub.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/unikraft-support/src/cxxabi_stub.cpp

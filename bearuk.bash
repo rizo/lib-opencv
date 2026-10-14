@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 cd src
-bearuk --app opencv -r "$PWD" > Makefile.bearuk
+bearuk --lib opencv -r "$PWD" -w
+mv Makefile.uk Makefile.bearuk
 

@@ -2,95 +2,102 @@
 ################################################################################
 # Registration
 ################################################################################
-$(eval $(call addlib,appopencv))
+$(eval $(call addlib_s,libopencv,$(CONFIG_LIBOPENCV)))
 
 ################################################################################
 # Flags
 ################################################################################
-APPOPENCV_CFLAGS-y += 
-APPOPENCV_CXXFLAGS-y +=  -DNDEBUG -DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE="long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -msse3 -pthread -std=c++17 $(APPOPENCV_BASE)
+LIBOPENCV_CFLAGS-y += 
+LIBOPENCV_CXXFLAGS-y +=  -DNDEBUG "-DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE=long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -msse3 -pthread -std=c++17 $(LIBOPENCV_BASE)
 
 ################################################################################
 # Includes necessary to build
 ################################################################################
-APPOPENCV_CINCLUDES-y += 
-APPOPENCV_CXXINCLUDES-y +=  -I$(APPOPENCV_BASE)/modules/core/ -I$(APPOPENCV_BASE)/modules/core/include/
+LIBOPENCV_CINCLUDES-y += 
+LIBOPENCV_CXXINCLUDES-y +=  -I$(LIBOPENCV_BASE)/modules/core/ -I$(LIBOPENCV_BASE)/modules/core/include/
+
+################################################################################
+# Headers the library should export
+################################################################################
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_BASE)/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_BASE)/modules/core/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_BASE)/unikraft-support/include
 
 ################################################################################
 # Sources
 ################################################################################
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/algorithm.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/alloc.cpp
-APPOPENCV_ALLOC_FLAGS-y +=  -DHAVE_MALLOC_H=1 -DHAVE_MEMALIGN=1 -DHAVE_POSIX_MEMALIGN=1
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/arithm.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/arithm.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/async.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/batch_distance.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/bindings_utils.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/buffer_area.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/channels.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/check.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/command_line_parser.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/conjugate_gradient.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/convert.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/convert_scale.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/copy.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/count_non_zero.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/downhill_simplex.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/dxt.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/glob.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/hal_internal.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/has_non_zero.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/kmeans.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/lapack.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/lda.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/logger.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/lpsolver.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/lut.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/mathfuncs.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/mathfuncs_core.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matmul.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_decomp.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_expressions.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_iterator.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_operations.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_sparse.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_transform.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/matrix_wrap.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/mean.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/merge.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/minmax.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/nan_mask.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/norm.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/out.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/parallel.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/parallel/parallel.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/parallel/parallel_openmp.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/parallel/parallel_tbb.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/parallel_impl.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/pca.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/persistence.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/persistence_base64_encoding.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/persistence_json.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/persistence_types.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/persistence_xml.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/persistence_yml.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/rand.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/reduce.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/softfloat.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/split.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/stat.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/stl.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/sum.dispatch.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/system.cpp
-APPOPENCV_SYSTEM_FLAGS-y +=  -DHAVE_GETAUXVAL=1
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/tables.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/trace.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/types.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/umatrix.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/utils/datafile.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/utils/filesystem.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/utils/logtagconfigparser.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/utils/logtagmanager.cpp
-APPOPENCV_SRCS-y += $(APPOPENCV_BASE)/modules/core/src/utils/samples.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/algorithm.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/alloc.cpp
+LIBOPENCV_ALLOC_FLAGS-y +=  -DHAVE_MALLOC_H=1 -DHAVE_MEMALIGN=1 -DHAVE_POSIX_MEMALIGN=1
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/arithm.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/arithm.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/async.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/batch_distance.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/bindings_utils.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/buffer_area.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/channels.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/check.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/command_line_parser.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/conjugate_gradient.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/convert.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/convert_scale.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/copy.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/count_non_zero.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/downhill_simplex.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/dxt.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/glob.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/hal_internal.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/has_non_zero.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/kmeans.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/lapack.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/lda.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/logger.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/lpsolver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/lut.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/mathfuncs.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/mathfuncs_core.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matmul.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_decomp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_expressions.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_iterator.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_operations.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_sparse.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_transform.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/matrix_wrap.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/mean.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/merge.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/minmax.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/nan_mask.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/norm.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/out.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/parallel.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/parallel/parallel.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/parallel/parallel_openmp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/parallel/parallel_tbb.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/parallel_impl.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/pca.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/persistence.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/persistence_base64_encoding.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/persistence_json.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/persistence_types.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/persistence_xml.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/persistence_yml.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/rand.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/reduce.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/softfloat.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/split.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/stat.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/stl.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/sum.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/system.cpp
+LIBOPENCV_SYSTEM_FLAGS-y +=  -DHAVE_GETAUXVAL=1
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/tables.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/trace.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/types.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/umatrix.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/utils/datafile.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/utils/filesystem.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/utils/logtagconfigparser.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/utils/logtagmanager.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_BASE)/modules/core/src/utils/samples.cpp

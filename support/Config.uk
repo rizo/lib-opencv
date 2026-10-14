@@ -1,0 +1,4 @@
+config LIBOPENCV
+	bool "opencv: computer vision and machine learning library"
+	default n
+	depends on HAVE_LIBC
