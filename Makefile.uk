@@ -1,0 +1,180 @@
+################################################################################
+# Registration
+################################################################################
+$(eval $(call addlib_s,libopencv,$(CONFIG_LIBOPENCV)))
+
+################################################################################
+# Original sources
+################################################################################
+LIBOPENCV_VERSION=5.0.0
+LIBOPENCV_RELEASE=v36
+LIBOPENCV_URL=https://github.com/nihui/opencv-mobile/releases/download/$(LIBOPENCV_RELEASE)/opencv-mobile-$(LIBOPENCV_VERSION).zip
+LIBOPENCV_SUBDIR=opencv-mobile-$(LIBOPENCV_VERSION)
+LIBOPENCV_PATCHDIR=$(LIBOPENCV_BASE)/patches
+
+$(eval $(call fetch,libopencv,$(LIBOPENCV_URL)))
+$(eval $(call patch,libopencv,$(LIBOPENCV_PATCHDIR),$(LIBOPENCV_SUBDIR)))
+
+LIBOPENCV_SRC = $(LIBOPENCV_ORIGIN)/$(LIBOPENCV_SUBDIR)
+LIBOPENCV_SUPPORT = $(LIBOPENCV_SRC)/unikraft-support
+
+# For insource builds we need to preserve the sub-directory structure.
+LIBOPENCV__BUILDTREE := y
+
+################################################################################
+# Prepare
+################################################################################
+$(LIBOPENCV_SRC)/.configured: $(LIBOPENCV_BUILD)/.patched $(LIBOPENCV_BASE)/options.txt
+	$(call verbose_cmd,CONFIGURE,libopencv: $(notdir $@), \
+		cd $(LIBOPENCV_SRC) && cmake \
+			-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+			-DCMAKE_INSTALL_PREFIX=install \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DBUILD_opencv_world=OFF \
+			`cat $(LIBOPENCV_BASE)/options.txt` \
+			. && touch $@)
+
+# Collect the generated headers (plus a dummy linux/auxvec.h, see
+# modules/core/src/system.cpp) into a dedicated include directory.
+$(LIBOPENCV_SUPPORT)/include/.generated: $(LIBOPENCV_SRC)/.configured
+	$(call verbose_cmd,GEN,libopencv: $(notdir $@), \
+		rm -rf $(LIBOPENCV_SUPPORT)/include && \
+		mkdir -p $(LIBOPENCV_SUPPORT)/include/linux && \
+		cp -r $(LIBOPENCV_SRC)/opencv2 $(LIBOPENCV_SUPPORT)/include/opencv2 && \
+		cp $(LIBOPENCV_SRC)/custom_hal.hpp $(LIBOPENCV_SUPPORT)/include/ && \
+		cp $(LIBOPENCV_SRC)/cv_cpu_config.h $(LIBOPENCV_SUPPORT)/include/ && \
+		cp $(LIBOPENCV_SRC)/cvconfig.h $(LIBOPENCV_SUPPORT)/include/ && \
+		cp $(LIBOPENCV_SRC)/opencv_data_config.hpp $(LIBOPENCV_SUPPORT)/include/ && \
+		cp $(LIBOPENCV_BASE)/files/dummy.h $(LIBOPENCV_SUPPORT)/include/linux/auxvec.h && \
+		touch $@)
+
+# Fall back to the compiler's own includes for headers Unikraft
+# doesn't provide (e.g. intrinsics headers such as <emmintrin.h>).
+# For gcc, also provide a small cxxabi stub (see files/cxxabi_stub.cpp).
+# TODO: Check version?
+$(LIBOPENCV_SUPPORT)/.compiler-include: $(LIBOPENCV_SRC)/.configured
+	$(call verbose_cmd,GEN,libopencv: $(notdir $@), \
+		rm -rf $(LIBOPENCV_SUPPORT)/compiler-include $(LIBOPENCV_SUPPORT)/src && \
+		mkdir -p $(LIBOPENCV_SUPPORT)/src && \
+		if echo $(CC) | grep -q clang; then \
+			ln -s "`$(CC) -print-resource-dir`/include" $(LIBOPENCV_SUPPORT)/compiler-include; \
+		else \
+			ln -s "`$(CC) -print-file-name=include`" $(LIBOPENCV_SUPPORT)/compiler-include; \
+			cp $(LIBOPENCV_BASE)/files/cxxabi_stub.cpp $(LIBOPENCV_SUPPORT)/src/cxxabi_stub.cpp; \
+		fi && \
+		touch $@)
+
+LIBOPENCV_PREPARED_DEPS = \
+	$(LIBOPENCV_SRC)/.configured \
+	$(LIBOPENCV_SUPPORT)/include/.generated \
+	$(LIBOPENCV_SUPPORT)/.compiler-include
+
+$(LIBOPENCV_BUILD)/.prepared: $(LIBOPENCV_PREPARED_DEPS)
+
+UK_PREPARE += $(LIBOPENCV_BUILD)/.prepared
+
+################################################################################
+# Flags
+################################################################################
+LIBOPENCV_CFLAGS-y += 
+LIBOPENCV_CXXFLAGS-y +=  -DNDEBUG "-DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE=long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -msse3 -pthread -std=c++17
+
+################################################################################
+# Includes necessary to build
+################################################################################
+LIBOPENCV_CINCLUDES-y += 
+LIBOPENCV_CXXINCLUDES-y +=  -I$(LIBOPENCV_SRC)/modules/core/ -I$(LIBOPENCV_SRC)/modules/core/include/
+LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SUPPORT)/include
+
+# Fall back to the compiler's own includes (for intrinsics headers).
+# NOTE: This must come "after" to ensure musl's libc headers win.
+LIBOPENCV_CXXINCLUDES-y += -idirafter$(LIBOPENCV_SUPPORT)/compiler-include
+
+################################################################################
+# Headers the library should export
+################################################################################
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/core/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SUPPORT)/include
+
+################################################################################
+# Sources
+################################################################################
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/algorithm.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/alloc.cpp
+LIBOPENCV_ALLOC_FLAGS-y +=  -DHAVE_MALLOC_H=1 -DHAVE_MEMALIGN=1 -DHAVE_POSIX_MEMALIGN=1
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/arithm.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/arithm.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/async.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/batch_distance.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/bindings_utils.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/buffer_area.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/channels.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/check.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/command_line_parser.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/conjugate_gradient.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/convert.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/convert_scale.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/copy.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/count_non_zero.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/downhill_simplex.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/dxt.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/glob.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/hal_internal.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/has_non_zero.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/kmeans.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/lapack.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/lda.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/logger.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/lpsolver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/lut.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/mathfuncs.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/mathfuncs_core.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matmul.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_decomp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_expressions.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_iterator.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_operations.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_sparse.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_transform.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/matrix_wrap.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/mean.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/merge.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/minmax.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/nan_mask.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/norm.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/out.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/parallel.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/parallel/parallel.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/parallel/parallel_openmp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/parallel/parallel_tbb.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/parallel_impl.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/pca.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/persistence.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/persistence_base64_encoding.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/persistence_json.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/persistence_types.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/persistence_xml.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/persistence_yml.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/rand.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/reduce.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/softfloat.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/split.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/stat.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/stl.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/sum.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/system.cpp
+LIBOPENCV_SYSTEM_FLAGS-y +=  -DHAVE_GETAUXVAL=1
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/tables.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/trace.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/types.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/umatrix.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/datafile.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/filesystem.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/logtagconfigparser.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/logtagmanager.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/samples.cpp
+
+# cxxabi stub, needed when building with gcc (see prepare above)
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SUPPORT)/src/cxxabi_stub.cpp

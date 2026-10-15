@@ -45,8 +45,4 @@ libraries:
     kconfig:
       CONFIG_LIBCOMPILER_RT: 'y'
 
-
-
 # vi: ft=yaml
-
-

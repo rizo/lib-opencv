@@ -1,5 +1,5 @@
---- a/src/modules/core/include/opencv2/core/fast_math.hpp
-+++ b/src/modules/core/include/opencv2/core/fast_math.hpp
+--- a/modules/core/include/opencv2/core/fast_math.hpp
++++ b/modules/core/include/opencv2/core/fast_math.hpp
 @@ -67,7 +67,9 @@
  #if defined(__CUDACC__)
    // nothing, intrinsics/asm code is not supported
@@ -29,10 +29,10 @@
      __m128 t = _mm_set_ss( value );
      return _mm_cvtss_si32(t);
  #elif defined _MSC_VER && defined _M_IX86
-diff --git a/src/modules/core/include/opencv2/core/utils/fp_control.private.hpp b/src/modules/core/include/opencv2/core/utils/fp_control.private.hpp
+diff --git a/modules/core/include/opencv2/core/utils/fp_control.private.hpp b/modules/core/include/opencv2/core/utils/fp_control.private.hpp
 index 12ee363..49ba11e 100644
---- a/src/modules/core/include/opencv2/core/utils/fp_control.private.hpp
-+++ b/src/modules/core/include/opencv2/core/utils/fp_control.private.hpp
+--- a/modules/core/include/opencv2/core/utils/fp_control.private.hpp
++++ b/modules/core/include/opencv2/core/utils/fp_control.private.hpp
 @@ -13,7 +13,8 @@
    // custom
  #elif defined(OPENCV_IMPL_FP_HINTS_X86)
@@ -43,10 +43,10 @@ index 12ee363..49ba11e 100644
    #include <xmmintrin.h>
    #define OPENCV_IMPL_FP_HINTS_X86 1
    #define OPENCV_IMPL_FP_HINTS 1
-diff --git a/src/modules/core/src/parallel_impl.cpp b/src/modules/core/src/parallel_impl.cpp
+diff --git a/modules/core/src/parallel_impl.cpp b/modules/core/src/parallel_impl.cpp
 index e203569..f5bdbad 100644
---- a/src/modules/core/src/parallel_impl.cpp
-+++ b/src/modules/core/src/parallel_impl.cpp
+--- a/modules/core/src/parallel_impl.cpp
++++ b/modules/core/src/parallel_impl.cpp
 @@ -40,12 +40,9 @@ DECLARE_CV_PAUSE
  #endif
  #ifndef CV_PAUSE
@@ -61,10 +61,10 @@ index e203569..f5bdbad 100644
  #   define CV_PAUSE(v) do { (void)v; _mm_pause(); } while (0)
  # elif defined __GNUC__ && defined __aarch64__
  #   define CV_PAUSE(v) do { for (int __delay = (v); __delay > 0; --__delay) { asm volatile("yield" ::: "memory"); } } while (0)
-diff --git a/src/modules/core/src/system.cpp b/src/modules/core/src/system.cpp
+diff --git a/modules/core/src/system.cpp b/modules/core/src/system.cpp
 index d7c4efd..bc90a33 100644
---- a/src/modules/core/src/system.cpp
-+++ b/src/modules/core/src/system.cpp
+--- a/modules/core/src/system.cpp
++++ b/modules/core/src/system.cpp
 @@ -142,7 +142,8 @@ const uint64_t AT_HWCAP = NT_GNU_HWCAP;
  #else
  #  include <elf.h>

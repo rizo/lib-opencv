@@ -1,5 +1,5 @@
---- a/src/CMakeLists.txt
-+++ b/src/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -5,13 +5,7 @@
  #      $ cmake <PATH_TO_OPENCV_ROOT>
  #
