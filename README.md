@@ -10,7 +10,3 @@ The OpenCV sources are fetched and prepared by the build system itself (see `Mak
 patches in `patches/`, runs OpenCV's CMake configure step to generate the
 headers the build needs, copies additional files and then compiles.
 
-Build with the bundled `Kraftfile` (used for local testing only):
-```shell
-./kraft_build.bash
-```
