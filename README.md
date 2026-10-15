@@ -1,6 +1,4 @@
-# unikraft-lib-opencv
-
-> WIP
+# lib-opencv
 
 A Unikraft library for [opencv-mobile](https://github.com/nihui/opencv-mobile).
 
