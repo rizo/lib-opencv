@@ -84,6 +84,8 @@ LIBOPENCV_CXXFLAGS-y +=  -DNDEBUG "-DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE=long lo
 ################################################################################
 LIBOPENCV_CINCLUDES-y += 
 LIBOPENCV_CXXINCLUDES-y +=  -I$(LIBOPENCV_SRC)/modules/core/ -I$(LIBOPENCV_SRC)/modules/core/include/
+LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/geometry/ -I$(LIBOPENCV_SRC)/modules/geometry/include/
+LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/imgproc/ -I$(LIBOPENCV_SRC)/modules/imgproc/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SUPPORT)/include
 
 # Fall back to the compiler's own includes (for intrinsics headers).
@@ -95,6 +97,8 @@ LIBOPENCV_CXXINCLUDES-y += -idirafter$(LIBOPENCV_SUPPORT)/compiler-include
 ################################################################################
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/core/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/geometry/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/imgproc/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SUPPORT)/include
 
 ################################################################################
@@ -175,6 +179,114 @@ LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/filesystem.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/logtagconfigparser.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/logtagmanager.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/core/src/utils/samples.cpp
+
+# geometry module
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/ap3p.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/approx.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/calibration_base.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/convhull.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/epnp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/fisheye.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/five-point.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/fundam.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/geometry.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/homography_decomp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/intersection.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/ippe.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/levmarq.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/linefit.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/main.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/matchcontours.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/min_enclosing_convex_polygon.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/min_enclosing_triangle.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/moments.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/mst.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/p3p.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/pinhole.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/polynom_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/ptcloud/ptcloud_utils.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/ptsetreg.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/rho.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/rotcalipers.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/shapedescr.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/solvepnp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/sqpnp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/subdivision2d.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/triangulate.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/bundle.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/degeneracy.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/dls_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/essential_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/estimator.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/fundamental_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/gamma_values.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/homography_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/local_optimization.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/plane_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/pnp_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/quality.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/ransac_solvers.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/sampler.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/sphere_solver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/termination.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/geometry/src/usac/utils.cpp
+
+# imgproc module
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/accum.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/accum.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/bilateral_filter.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/blend.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/box_filter.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/canny.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/clahe.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/color.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/color_hsv.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/color_lab.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/color_rgb.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/color_yuv.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/colormap.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/connectedcomponents.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/contours_approx.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/contours_common.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/contours_link.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/contours_new.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/contours_truco.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/corner.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/cornersubpix.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/demosaicing.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/deriv.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/distransform.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/drawing.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/drawing_text.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/emd_new.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/filter.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/fisheye.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/floodfill.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/gabor.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/generalized_hough.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/grabcut.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/histogram.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/hough.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/imgwarp.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/lsd.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/main.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/median_blur.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/morph.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/phasecorr.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/phasecorr_iterative.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/pyramids.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/resize.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/samplers.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/segmentation.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/smooth.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/spatialgradient.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/stackblur.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/sumpixels.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/tables.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/templmatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/thresh.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/undistort.dispatch.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/utils.cpp
 
 # cxxabi stub, needed when building with gcc (see prepare above)
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SUPPORT)/src/cxxabi_stub.cpp
