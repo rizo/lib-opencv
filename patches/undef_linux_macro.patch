@@ -1,0 +1,33 @@
+--- a/modules/highgui/src/highgui.cpp
++++ b/modules/highgui/src/highgui.cpp
+@@ -57,6 +57,14 @@
+ #if CV_WITH_CIX
+ #include "jpeg_encoder_v4l_cix.h"
+ #endif
++// PATCH: undef_linux_macro
++#undef __linux__
+ #if defined __linux__ && !__ANDROID__
+ #include "display_fb.h"
+ #endif
+--- a/modules/highgui/src/videocapture.cpp
++++ b/modules/highgui/src/videocapture.cpp
+@@ -29,6 +29,14 @@
+ #if CV_WITH_RK
+ #include "capture_v4l2_rk_aiq.h"
+ #endif
++// PATCH: undef_linux_macro
++#undef __linux__
+ #if defined __linux__
+ #include "capture_v4l2.h"
+ #endif
+--- a/modules/highgui/src/videowriter.cpp
++++ b/modules/highgui/src/videowriter.cpp
+@@ -20,6 +20,14 @@
+ #include <stdio.h>
+ #include <string.h>
+ 
++// PATCH: undef_linux_macro
++#undef __linux__
+ #if defined __linux__ && !__ANDROID__
+ #include "writer_http.h"
+ #endif

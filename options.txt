@@ -58,7 +58,7 @@
 -DBUILD_opencv_flann=OFF
 -DBUILD_opencv_geometry=ON
 -DBUILD_opencv_gpu=OFF
--DBUILD_opencv_highgui=OFF
+-DBUILD_opencv_highgui=ON
 -DBUILD_opencv_imgcodecs=OFF
 -DBUILD_opencv_imgcodecs=OFF
 -DBUILD_opencv_imgproc=ON

@@ -87,6 +87,7 @@ LIBOPENCV_CXXINCLUDES-y +=  -I$(LIBOPENCV_SRC)/modules/core/ -I$(LIBOPENCV_SRC)/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/geometry/ -I$(LIBOPENCV_SRC)/modules/geometry/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/imgproc/ -I$(LIBOPENCV_SRC)/modules/imgproc/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/photo/ -I$(LIBOPENCV_SRC)/modules/photo/include/
+LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/highgui/ -I$(LIBOPENCV_SRC)/modules/highgui/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SUPPORT)/include
 
 # Fall back to the compiler's own includes (for intrinsics headers).
@@ -101,6 +102,7 @@ CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/core/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/geometry/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/imgproc/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/photo/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/highgui/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SUPPORT)/include
 
 ################################################################################
@@ -313,6 +315,15 @@ LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/npr.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/seamless_cloning.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/seamless_cloning_impl.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/tonemap.cpp
+
+# highgui module
+# NOTE: linux-specific backends are not added.
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/highgui/src/exif.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/highgui/src/highgui.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/highgui/src/kanna_rotate.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/highgui/src/nms.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/highgui/src/videocapture.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/highgui/src/videowriter.cpp
 
 # cxxabi stub, needed when building with gcc (see prepare above)
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SUPPORT)/src/cxxabi_stub.cpp
