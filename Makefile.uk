@@ -34,18 +34,16 @@ $(LIBOPENCV_SRC)/.configured: $(LIBOPENCV_BUILD)/.patched $(LIBOPENCV_BASE)/opti
 			`cat $(LIBOPENCV_BASE)/options.txt` \
 			. && touch $@)
 
-# Collect the generated headers (plus a dummy linux/auxvec.h, see
-# modules/core/src/system.cpp) into a dedicated include directory.
+# Collect the generated headers into a dedicated include directory.
 $(LIBOPENCV_SUPPORT)/include/.generated: $(LIBOPENCV_SRC)/.configured
 	$(call verbose_cmd,GEN,libopencv: $(notdir $@), \
 		rm -rf $(LIBOPENCV_SUPPORT)/include && \
-		mkdir -p $(LIBOPENCV_SUPPORT)/include/linux && \
+		mkdir -p $(LIBOPENCV_SUPPORT)/include && \
 		cp -r $(LIBOPENCV_SRC)/opencv2 $(LIBOPENCV_SUPPORT)/include/opencv2 && \
 		cp $(LIBOPENCV_SRC)/custom_hal.hpp $(LIBOPENCV_SUPPORT)/include/ && \
 		cp $(LIBOPENCV_SRC)/cv_cpu_config.h $(LIBOPENCV_SUPPORT)/include/ && \
 		cp $(LIBOPENCV_SRC)/cvconfig.h $(LIBOPENCV_SUPPORT)/include/ && \
 		cp $(LIBOPENCV_SRC)/opencv_data_config.hpp $(LIBOPENCV_SUPPORT)/include/ && \
-		cp $(LIBOPENCV_BASE)/files/dummy.h $(LIBOPENCV_SUPPORT)/include/linux/auxvec.h && \
 		touch $@)
 
 # Fall back to the compiler's own includes for headers Unikraft

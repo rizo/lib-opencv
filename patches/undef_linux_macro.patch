@@ -31,3 +31,25 @@
  #if defined __linux__ && !__ANDROID__
  #include "writer_http.h"
  #endif
+--- a/modules/core/src/system.cpp
++++ b/modules/core/src/system.cpp
+@@ -70,6 +70,8 @@
+ #include <opencv2/core/utils/fp_control_utils.hpp>
+ #include <opencv2/core/utils/fp_control.private.hpp>
+ 
++// PATCH: undef_linux_macro
++#undef __linux__
+ namespace cv {
+ 
+ static void _initSystem()
+--- a/modules/core/src/parallel.cpp
++++ b/modules/core/src/parallel.cpp
+@@ -781,6 +781,8 @@
+ #endif
+ }
+ 
++// PATCH: undef_linux_macro
++#undef __linux__
+ 
+ #if defined __linux__ || defined __GLIBC__ || defined __HAIKU__ || defined __ANDROID__
+   #define CV_CPU_GROUPS_1
