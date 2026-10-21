@@ -86,6 +86,7 @@ LIBOPENCV_CINCLUDES-y +=
 LIBOPENCV_CXXINCLUDES-y +=  -I$(LIBOPENCV_SRC)/modules/core/ -I$(LIBOPENCV_SRC)/modules/core/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/geometry/ -I$(LIBOPENCV_SRC)/modules/geometry/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/imgproc/ -I$(LIBOPENCV_SRC)/modules/imgproc/include/
+LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SRC)/modules/photo/ -I$(LIBOPENCV_SRC)/modules/photo/include/
 LIBOPENCV_CXXINCLUDES-y += -I$(LIBOPENCV_SUPPORT)/include
 
 # Fall back to the compiler's own includes (for intrinsics headers).
@@ -99,6 +100,7 @@ CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/core/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/geometry/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/imgproc/include
+CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SRC)/modules/photo/include
 CXXINCLUDES-$(CONFIG_LIBOPENCV) += -I$(LIBOPENCV_SUPPORT)/include
 
 ################################################################################
@@ -287,6 +289,30 @@ LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/templmatch.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/thresh.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/undistort.dispatch.cpp
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/imgproc/src/utils.cpp
+
+# photo module
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/align.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/calibrate.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/ccm.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/color.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/colorspace.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/distance.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/illumobserver.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/linearize.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/operations.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/ccm/utils.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/chromatic_aberration_correction.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/contrast_preserve.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/denoise_tvl1.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/denoising.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/hdr_common.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/inpaint.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/intelligent_scissors.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/merge.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/npr.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/seamless_cloning.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/seamless_cloning_impl.cpp
+LIBOPENCV_SRCS-y += $(LIBOPENCV_SRC)/modules/photo/src/tonemap.cpp
 
 # cxxabi stub, needed when building with gcc (see prepare above)
 LIBOPENCV_SRCS-y += $(LIBOPENCV_SUPPORT)/src/cxxabi_stub.cpp
