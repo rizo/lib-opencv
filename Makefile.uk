@@ -27,6 +27,8 @@ LIBOPENCV__BUILDTREE := y
 $(LIBOPENCV_SRC)/.configured: $(LIBOPENCV_BUILD)/.patched $(LIBOPENCV_BASE)/options.txt
 	$(call verbose_cmd,CONFIGURE,libopencv: $(notdir $@), \
 		cd $(LIBOPENCV_SRC) && cmake \
+			-DCMAKE_SYSTEM_NAME=Linux \
+			-DCMAKE_SYSTEM_PROCESSOR=$(CONFIG_UK_ARCH) \
 			-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 			-DCMAKE_INSTALL_PREFIX=install \
 			-DCMAKE_BUILD_TYPE=Release \
@@ -75,7 +77,7 @@ UK_PREPARE += $(LIBOPENCV_BUILD)/.prepared
 # Flags
 ################################################################################
 LIBOPENCV_CFLAGS-y += 
-LIBOPENCV_CXXFLAGS-y +=  -DNDEBUG "-DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE=long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -msse3 -pthread -std=c++17
+LIBOPENCV_CXXFLAGS-y +=  -DNDEBUG "-DOPENCV_ALLOCATOR_STATS_COUNTER_TYPE=long long" -D_USE_MATH_DEFINES -D__OPENCV_BUILD=1 -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -O3 -W -Waddress -Wall -Wformat -Wformat-security -Wimplicit-fallthrough=3 -Winit-self -Wmissing-declarations -Wno-comment -Wno-delete-non-virtual-dtor -Wno-strict-overflow -Wnon-virtual-dtor -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-promo -Wsuggest-override -Wundef -Wuninitialized -fPIC -fdata-sections -fdiagnostics-show-option -ffunction-sections -fomit-frame-pointer -fsigned-char -fvisibility-inlines-hidden -fvisibility=hidden -isystem -pthread -std=c++17
 
 ################################################################################
 # Includes necessary to build
